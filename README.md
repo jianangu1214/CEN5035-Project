@@ -8,10 +8,10 @@ This project is designed for a **4-week software engineering class project** and
 ## Members
 
 
-- Ao Wang : Frontend
-- Ray Chen : Frontend
-- Wentao Chen : Backend
-- Jianan Gu : Backend
+- Ao Wang : Front-end
+- Ray Chen : Front-end
+- Wentao Chen : Back-end
+- Jianan Gu : Back-end
 ## 1. Project Goals
 
 - Practice frontend + backend collaboration
