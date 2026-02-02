@@ -5,7 +5,13 @@ A simple full-stack web application for logging hotels and flights, showing trav
 This project is designed for a **4-week software engineering class project** and a **team of four**.
 
 ---
+## Members
 
+
+- Ao Wang : Frontend
+- Ray Chen : Frontend
+- Wentao Chen : Backend
+- Jianan Gu : Backend
 ## 1. Project Goals
 
 - Practice frontend + backend collaboration
