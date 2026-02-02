@@ -61,14 +61,14 @@ This project is designed for a **4-week software engineering class project** and
 ## 3. Tech Stack (Simple)
 
 Frontend
-- React + TypeScript
+- React + JavaScript
 - Map: Leaflet or Mapbox
 - Charts: Chart.js or Recharts
 
 Backend
-- Node.js + Express
+- Gin + Golang
 - Database: PostgreSQL
-- ORM: Prisma
+- ORM: GORM
 - Auth: simple email + password + JWT
 
 Dev
