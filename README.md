@@ -155,18 +155,18 @@ Summary
 
 Frontend Developer A
 - Login / register pages
-- Hotel log UI (table + form)
+- Flight log UI
 
 Frontend Developer B
-- Flight log UI
+- Hotel log UI (table + form)
 - Map page and summary page
 
 Backend Developer A
 - Auth (login / register)
-- Hotel CRUD APIs
+- Flight CRUD APIs
 
 Backend Developer B
-- Flight CRUD APIs
+- Hotel CRUD APIs
 - Map and summary aggregation APIs
 
 ---
