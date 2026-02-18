@@ -17,18 +17,32 @@ func SetupRouter(cfg *config.Config) *gin.Engine {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 
-	// auth
+	// 1. Auth Routes (User Handler)
+	// 队友负责的部分
 	auth := r.Group("/auth")
 	{
 		auth.POST("/register", handlers.Register(cfg))
 		auth.POST("/login", handlers.Login(cfg))
 	}
 
-	// protected example (for demo)
+	// 2. Protected Routes
 	protected := r.Group("/")
 	protected.Use(middleware.JWTAuth(cfg))
 	{
 		protected.GET("/me", handlers.Me())
+
+		// --- Hotel Routes (你的部分) ---
+		
+		hotelHandler := handlers.NewHotelHandler()
+
+		hotelGroup := protected.Group("/hotels")
+		{
+			hotelGroup.GET("", hotelHandler.GetAllHotels)       // GET /hotels
+			hotelGroup.POST("", hotelHandler.CreateHotel)       // POST /hotels
+			hotelGroup.GET("/:id", hotelHandler.GetHotel)       // GET /hotels/:id
+			hotelGroup.PUT("/:id", hotelHandler.UpdateHotel)    // PUT /hotels/:id
+			hotelGroup.DELETE("/:id", hotelHandler.DeleteHotel) // DELETE /hotels/:id
+		}
 	}
 
 	return r
