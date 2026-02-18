@@ -27,7 +27,7 @@ export default function HotelList() {
       const data = await getHotels()
       setHotels(Array.isArray(data) ? data : [])
     } catch (err) {
-      setError(err.message || 'Failed to load hotels')
+      setError(err.body?.error || err.body?.message || err.message || 'Failed to load hotels')
       setHotels([])
     } finally {
       setLoading(false)
@@ -45,7 +45,7 @@ export default function HotelList() {
       await deleteHotel(id)
       setHotels((prev) => prev.filter((h) => h.id !== id))
     } catch (err) {
-      setError(err.message || 'Failed to delete hotel')
+      setError(err.body?.error || err.body?.message || err.message || 'Failed to delete hotel')
     } finally {
       setDeletingId(null)
     }

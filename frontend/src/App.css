@@ -4,28 +4,40 @@
   flex-direction: column;
 }
 
+/* ——— Nav ——— */
 .nav {
-  background: #1e293b;
+  background: var(--bg-nav);
   color: #f8fafc;
-  padding: 0.75rem 1.5rem;
+  padding: 0 1.5rem;
+  height: 56px;
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   align-items: center;
+  box-shadow: var(--shadow-md);
 }
 
 .nav a {
-  color: #e2e8f0;
+  color: #cbd5e1;
   text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: color 0.15s ease;
+}
+
+.nav a:first-of-type {
+  color: #f8fafc;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .nav a:hover {
   color: #fff;
-  text-decoration: none;
 }
 
+/* ——— Main ——— */
 .main {
   flex: 1;
-  padding: 1.5rem;
+  padding: 1.75rem 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
@@ -41,52 +53,76 @@
 .page-header h1 {
   margin: 0;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
+/* ——— Buttons ——— */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
+  padding: 0.5rem 1.125rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
   border: none;
-  transition: background 0.15s;
+  transition: all 0.2s ease;
 }
 
 .btn-primary {
-  background: #2563eb;
+  background: var(--accent);
   color: #fff;
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
-  background: #1d4ed8;
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.35);
 }
 
 .btn-danger {
-  background: #dc2626;
+  background: var(--danger);
   color: #fff;
+  font-size: 0.8125rem;
+  padding: 0.4rem 0.875rem;
 }
 
 .btn-danger:hover {
-  background: #b91c1c;
+  background: var(--danger-hover);
+  transform: translateY(-1px);
+}
+
+.btn-danger:disabled {
+  opacity: 0.7;
+  transform: none;
+  cursor: not-allowed;
 }
 
 .btn-secondary {
-  background: #e2e8f0;
-  color: #334155;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  font-size: 0.8125rem;
+  padding: 0.4rem 0.875rem;
 }
 
 .btn-secondary:hover {
-  background: #cbd5e1;
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: var(--text-primary);
 }
 
+/* ——— Table ——— */
 .table-wrap {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
+  border: 1px solid var(--border);
 }
 
 .table {
@@ -96,97 +132,151 @@
 
 .table th,
 .table td {
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1.25rem;
   text-align: left;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border);
 }
 
 .table th {
   background: #f8fafc;
   font-weight: 600;
-  font-size: 0.875rem;
-  color: #475569;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.table tbody tr:hover td {
+  background: var(--accent-subtle);
 }
 
 .table tr:last-child td {
   border-bottom: none;
 }
 
-.table tr:hover td {
-  background: #f8fafc;
+.table td {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
 }
 
 .table .actions {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
+/* ——— Empty state ——— */
 .empty-state {
   text-align: center;
-  padding: 3rem 1rem;
-  color: #64748b;
+  padding: 4rem 1.5rem;
+  color: var(--text-muted);
 }
 
 .empty-state p {
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
 }
 
+/* ——— Form ——— */
 .form-card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  padding: 1.5rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 1.75rem;
   max-width: 480px;
+  border: 1px solid var(--border);
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .form-group label {
   display: block;
-  font-weight: 500;
-  margin-bottom: 0.35rem;
-  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.form-group input:hover,
+.form-group textarea:hover {
+  border-color: #cbd5e1;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
 .form-group textarea {
-  min-height: 80px;
+  min-height: 88px;
   resize: vertical;
 }
 
 .form-actions {
   display: flex;
   gap: 0.75rem;
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
+  padding-top: 0.25rem;
 }
 
+/* ——— Error & loading ——— */
 .error-banner {
   background: #fef2f2;
   color: #b91c1c;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-sm);
   margin-bottom: 1rem;
   font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #fecaca;
 }
 
 .loading {
   text-align: center;
-  padding: 2rem;
-  color: #64748b;
+  padding: 3rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.loading::after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 0.5rem;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
