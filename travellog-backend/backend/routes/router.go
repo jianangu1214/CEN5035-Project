@@ -93,7 +93,7 @@ func SetupRouter(cfg *config.Config) *gin.Engine {
 	{
 		protected.GET("/me", handlers.Me())
 
-		// --- Hotel Routes (你的部分) ---
+		// --- Hotel Routes ---
 		hotelHandler := handlers.NewHotelHandler()
 
 		hotelGroup := protected.Group("/hotels")
@@ -103,6 +103,18 @@ func SetupRouter(cfg *config.Config) *gin.Engine {
 			hotelGroup.GET("/:id", hotelHandler.GetHotel)       // GET /hotels/:id
 			hotelGroup.PUT("/:id", hotelHandler.UpdateHotel)    // PUT /hotels/:id
 			hotelGroup.DELETE("/:id", hotelHandler.DeleteHotel) // DELETE /hotels/:id
+		}
+
+		// --- Flight Routes ---
+		flightHandler := handlers.NewFlightHandler()
+
+		flightGroup := protected.Group("/flights")
+		{
+			flightGroup.GET("", flightHandler.GetAllFlights)       // GET /flights
+			flightGroup.POST("", flightHandler.CreateFlight)       // POST /flights
+			flightGroup.GET("/:id", flightHandler.GetFlight)       // GET /flights/:id
+			flightGroup.PUT("/:id", flightHandler.UpdateFlight)    // PUT /flights/:id
+			flightGroup.DELETE("/:id", flightHandler.DeleteFlight) // DELETE /flights/:id
 		}
 	}
 
