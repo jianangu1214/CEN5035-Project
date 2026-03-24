@@ -71,19 +71,114 @@ As a developer, I want minimal E2E (Cypress) and unit tests to guard core flows.
 
 ## Successfully completed
 
-- (Fill after sprint progress)
-
-- Implemented JWT-based authentication and verified protected routes (`/me`, `/flights`, `/hotels`).
-- Configured backend to use PostgreSQL via Docker and ensured correct DB connectivity.
-- Implemented backend integration tests covering:
-  - user registration and login
-  - JWT validation
-  - protected route access
-  - flight creation, retrieval, and deletion
-  - hotel creation and retrieval
-  - user-level data isolation
-  - invalid input handlings
+- Frontend:
+  - (Team to fill) Flight list/form pages wired to backend; JWT persisted for protected routes.
+  - (Team to fill) Cypress smoke test + unit tests (list files once merged).
+- Backend:
+  - Flight model finalized; Flight CRUD handlers implemented and routed with JWT protection.
+  - API documentation added (Auth/Hotel/Flight) in this file.
+  - JWT-based authentication verified on protected routes (`/me`, `/flights`, `/hotels`).
+  - PostgreSQL via Docker configured and connectivity verified.
+  - Backend integration tests (routes) covering:
+    - user registration and login
+    - JWT validation
+    - protected route access
+    - flight creation, retrieval, and deletion
+    - hotel creation and retrieval
+    - user-level data isolation
+    - invalid input handling
 
 ## Not completed (and why)
 
 - (Fill after sprint progress)
+
+---
+
+# Backend Unit Tests (Sprint 2)
+
+- `routes/router_test.go`
+  - Auth: register/login, JWT validation, `/me` access.
+  - Flights: create, list (user isolation), delete, invalid time input, auth required.
+  - Hotels: create, list (user isolation).
+- Target ratio: ~1:1 for handlers’ main paths (auth, flights, hotels). Add more cases if time permits (e.g., update, 404 not found).
+- How to run (full and targeted):
+  1. Start Postgres (default creds `travellog/travellog123` on `localhost:5432`):
+     - `cd travellog-backend && docker-compose up -d`
+     - verify: `docker ps | grep travellog`
+  2. Run all backend tests:
+     - `cd travellog-backend/backend`
+     - `go test ./routes -v`
+     - If cache/permission issues: `GOMODCACHE=$PWD/.gocache GOCACHE=$PWD/.gocache go test ./routes -v`
+  3. Run a single test case (example: create flight):
+     - `go test ./routes -run TestCreateFlight -v`
+
+---
+
+# Frontend Tests (Sprint 2)
+
+- Cypress E2E (smoke):
+- Unit tests:
+
+---
+
+# Backend API Documentation
+
+## Auth
+
+- `POST /auth/register`
+  - Body: `{ "email": "user@example.com", "password": "min 8 chars" }`
+  - Responses: `201 { "id": 1, "email": "user@example.com" }`; `409` email exists; `400` invalid input.
+- `POST /auth/login`
+  - Body: `{ "email": "...", "password": "..." }`
+  - Responses: `200 { "token": "<jwt>", "user": { "id": 1, "email": "..." } }`; `401` invalid credentials; `400` invalid input.
+- `GET /me` (JWT required)
+  - Header: `Authorization: Bearer <token>`
+  - Responses: `200 { "user_id": 1 }`; `401` missing/invalid token.
+
+## Hotels (JWT required)
+
+- `GET /hotels`
+  - Response: `200 { "hotels": [ { id, hotel_name, city, country, check_in, check_out, price, notes, latitude, longitude } ] }`
+- `GET /hotels/:id`
+  - Response: `200 { "hotel": { ... } }`; `404` not found (or not owned).
+- `POST /hotels`
+  - Body: `{ "hotel_name": "...", "city": "...", "country": "...", "check_in": "YYYY-MM-DD", "check_out": "YYYY-MM-DD", "price": 123.45, "notes": "...", "latitude": 0, "longitude": 0 }`
+  - Responses: `201 { "hotel": { ... } }`; `400` invalid body/date; `401` unauthorized.
+- `PUT /hotels/:id`
+  - Body: partial fields same as create.
+  - Responses: `200 { "hotel": { ...updated } }`; `404` not found; `400` invalid body.
+- `DELETE /hotels/:id`
+  - Responses: `200 { "message": "Hotel deleted successfully" }`; `404` not found.
+
+## Flights (JWT required)
+
+- `GET /flights`
+  - Response: `200 { "flights": [ { id, airline, flight_number, from_airport, to_airport, depart_time (RFC3339), arrive_time (RFC3339), price, notes } ] }`
+- `GET /flights/:id`
+  - Response: `200 { "flight": { ... } }`; `404` not found (or not owned).
+- `POST /flights`
+  - Body: `{ "airline": "...", "flight_number": "...", "from_airport": "JFK", "to_airport": "LAX", "depart_time": "2026-03-01T10:00:00Z", "arrive_time": "2026-03-01T14:00:00Z", "price": 320.5, "notes": "..." }`
+  - Responses: `201 { "flight": { ... } }`; `400` invalid body/time; `401` unauthorized.
+- `PUT /flights/:id`
+  - Body: partial fields same as create.
+  - Responses: `200 { "flight": { ...updated } }`; `404` not found; `400` invalid body.
+- `DELETE /flights/:id`
+  - Responses: `200 { "message": "Flight deleted successfully" }`; `404` not found.
+
+## Auth & Ownership Rules
+
+- All `/hotels` and `/flights` endpoints require `Authorization: Bearer <token>`.
+- Data is scoped to the authenticated user (`user_id`); accessing others’ data returns `404`.
+
+## Error Response Shape
+
+```json
+{ "error": "<message>" }
+```
+
+---
+
+# Frontend / Backend Testing Summary
+
+- Frontend: (team to fill) Cypress smoke + unit tests list and paths.
+- Backend: `routes/router_test.go` (auth, hotels, flights, JWT, isolation, bad input).
