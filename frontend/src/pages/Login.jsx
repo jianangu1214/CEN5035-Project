@@ -35,14 +35,32 @@ export default function Login() {
 
       <form onSubmit={onSubmit}>
         <div>
-          <label>Email</label><br />
-          <input value={email} onChange={(e) => setEmail(e.target.value)} />
+          <label htmlFor="login-email">Email</label><br />
+          <input
+            id="login-email"
+            name="email"
+            type="email"
+            autoComplete="username"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            data-testid="login-email"
+          />
         </div>
         <div>
-          <label>Password</label><br />
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <label htmlFor="login-password">Password</label><br />
+          <input
+            id="login-password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            data-testid="login-password"
+          />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" data-testid="login-submit">
+          Login
+        </button>
       </form>
 
       <p>

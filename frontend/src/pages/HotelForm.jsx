@@ -66,13 +66,13 @@ export default function HotelForm() {
     setError(null)
     setSaving(true)
     const payload = {
-      hotel_name: form.hotel_name.trim() || null,
-      city: form.city.trim() || null,
-      country: form.country.trim() || null,
-      check_in: form.check_in || null,
-      check_out: form.check_out || null,
-      price: form.price === '' ? null : Number(form.price),
-      notes: form.notes.trim() || null,
+      hotel_name: form.hotel_name.trim(),
+      city: form.city.trim(),
+      country: form.country.trim(),
+      check_in: form.check_in || '',
+      check_out: form.check_out || '',
+      price: form.price === '' ? 0 : Number(form.price),
+      notes: form.notes.trim() || '',
     }
     try {
       if (isEdit) {
@@ -106,7 +106,7 @@ export default function HotelForm() {
       )}
 
       <div className="form-card">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} data-testid="hotel-form">
           <div className="form-group">
             <label htmlFor="hotel_name">Hotel name</label>
             <input
@@ -181,7 +181,7 @@ export default function HotelForm() {
             />
           </div>
           <div className="form-actions">
-            <button type="submit" className="btn btn-primary" disabled={saving}>
+            <button type="submit" className="btn btn-primary" disabled={saving} data-testid="hotel-submit">
               {saving ? 'Saving…' : isEdit ? 'Update' : 'Add hotel'}
             </button>
             <button

@@ -1,11 +1,14 @@
 import { request } from './client';
 
-export function getHotels() {
-  return request('/hotels');
+export async function getHotels() {
+  const data = await request('/hotels');
+  if (Array.isArray(data)) return data;
+  return data?.hotels ?? [];
 }
 
-export function getHotel(id) {
-  return request(`/hotels/${id}`);
+export async function getHotel(id) {
+  const data = await request(`/hotels/${id}`);
+  return data?.hotel ?? data;
 }
 
 export function createHotel(data) {

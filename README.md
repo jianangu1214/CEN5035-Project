@@ -2,7 +2,7 @@
 
 # TravelLog — Hotel & Flight Log Web App
 
-A simple full-stack web application for logging hotels and flights, showing travel routes and hotel nights on a map, and generating month / quarter / year summaries.  
+A simple full-stack web application for logging hotels and flights, showing travel routes and hotel nights on a map, and generating month / quarter / year summaries.
 This project is designed for a **4-week software engineering class project** and a **team of four**.
 
 ---
@@ -90,16 +90,14 @@ Dev
 
 ## 4. Repository Structure
 
-travellog/
-README.md
-docker-compose.yml
-frontend/
-src/
-package.json
-backend/
-src/
-prisma/
-package.json
+```
+CEN5035-Project/
+├── README.md                 # This file — start with §11 for how to run
+├── frontend/                 # React + Vite ([frontend/README.md](frontend/README.md))
+└── travellog-backend/
+    ├── docker-compose.yml
+    └── backend/              # Go API ([travellog-backend/backend/README.md](travellog-backend/backend/README.md))
+```
 
 ---
 
@@ -161,7 +159,7 @@ Flights
 
 Map
 
-- GET `/map`  
+- GET `/map`
   Returns hotel locations and flight routes
 
 Summary
@@ -239,6 +237,111 @@ Backend Developer B
 
 ---
 
-## 11. License
+## 11. Local development and testing
+
+### Ports (defaults)
+
+| Service | Port | Notes |
+|--------|------|--------|
+| Frontend (Vite) | **5173** | `npm run dev` in `frontend/` |
+| Backend (Gin) | **8080** | `SERVER_PORT` (default `8080`) |
+| API from the browser | `/api/*` | Vite proxies to the backend; see below |
+
+The React app calls `fetch('/api/...')`. Vite rewrites `/api` to the backend URL. **Keep the proxy target and `SERVER_PORT` in sync** (both default to port 8080).
+
+If the backend runs on another port (e.g. `SERVER_PORT=8081`), create `frontend/.env.local`:
+
+```bash
+VITE_API_PROXY_TARGET=http://localhost:8081
+```
+
+Restart `npm run dev` after changing env files.
+
+### 11.1 Run the backend (SQLite, recommended for local dev)
+
+From the repo root:
+
+```bash
+cd travellog-backend/backend
+go mod tidy
+USE_SQLITE=true go run main.go
+```
+
+Health check: [http://localhost:8080/health](http://localhost:8080/health)
+
+More detail, PostgreSQL/Docker, environment variables, and `curl` examples: [travellog-backend/backend/README.md](travellog-backend/backend/README.md).
+
+### 11.2 Seed a test user (Cypress / QA)
+
+There is no separate admin role; this creates a **normal user** with known credentials:
+
+```bash
+cd travellog-backend/backend
+USE_SQLITE=true go run ./cmd/seedtestuser
+```
+
+Defaults: **email** `admin@test.local`, **password** `AdminTest123!`. Override with `SEED_EMAIL` and `SEED_PASSWORD` (password at least 8 characters). Safe to run multiple times.
+
+### 11.3 Run the frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173). Register a new account, or log in with the seeded test user after running the seed command.
+
+### 11.4 Unit tests (Vitest)
+
+```bash
+cd frontend
+npm test
+npm run test:watch
+```
+
+### 11.5 End-to-end tests (Cypress)
+
+Needs **both** backend and frontend running (same terminals as above).
+
+```bash
+# Terminal A
+cd travellog-backend/backend && USE_SQLITE=true go run main.go
+
+# Terminal B
+cd frontend && npm run dev
+
+# Terminal C
+cd frontend && npm run cypress:open
+# or headless: npm run cypress:run
+```
+
+Default Cypress credentials match the seed user (`admin@test.local` / `AdminTest123!`). Override when needed:
+
+```bash
+npx cypress run --env TEST_EMAIL=you@example.com,TEST_PASSWORD='YourPass123'
+```
+
+### 11.6 `listen tcp :8080: address already in use`
+
+Another process (often a previous `go run main.go`) is using port 8080.
+
+On macOS/Linux:
+
+```bash
+lsof -i :8080 -sTCP:LISTEN
+kill <PID>
+```
+
+Or stop the other terminal where the backend is still running. Alternatively run the backend on another port and set `VITE_API_PROXY_TARGET` as in the table above.
+
+### 11.7 Repository layout (actual)
+
+- `frontend/` — React + Vite app
+- `travellog-backend/backend/` — Go + Gin API (`main.go`, `cmd/seedtestuser/`)
+
+---
+
+## 12. License
 
 MIT
