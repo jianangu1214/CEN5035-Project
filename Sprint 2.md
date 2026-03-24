@@ -66,12 +66,23 @@ As a developer, I want minimal E2E (Cypress) and unit tests to guard core flows.
 
 - **Frontend (Ao Wang):** Flight list page; Flight form page; JWT integration.
 - **Frontend (Ray Chen):** Cypress smoke test; frontend unit tests (1:1 for key components).
-- **Backend (Wentao Chen):** DB/config for flights; Auth/JWT support; backend unit tests.
+- **Backend (Wentao Chen):** DB/config for flights; Auth/JWT support; backend integration tests.
 - **Backend (Jianan Gu):** Flight CRUD; API documentation update.
 
 ## Successfully completed
 
 - (Fill after sprint progress)
+
+- Implemented JWT-based authentication and verified protected routes (`/me`, `/flights`, `/hotels`).
+- Configured backend to use PostgreSQL via Docker and ensured correct DB connectivity.
+- Implemented backend integration tests covering:
+  - user registration and login
+  - JWT validation
+  - protected route access
+  - flight creation, retrieval, and deletion
+  - hotel creation and retrieval
+  - user-level data isolation
+  - invalid input handlings
 
 ## Not completed (and why)
 
