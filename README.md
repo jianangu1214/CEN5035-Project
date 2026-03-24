@@ -1,17 +1,21 @@
 # CEN5035-Project
+
 # TravelLog — Hotel & Flight Log Web App
 
 A simple full-stack web application for logging hotels and flights, showing travel routes and hotel nights on a map, and generating month / quarter / year summaries.  
 This project is designed for a **4-week software engineering class project** and a **team of four**.
 
 ---
+
 ## Members
 
+- Ao Wang (@Ao Wang, @William-A-Wang): Front-end
+- Ray Chen (@rkc8626, @kzc-qubit) : Front-end
+- Wentao Chen (@wentao-chen227) : Back-end
+- Jianan Gu (@jianangu1214, @Griffin) : Back-end
 
-- Ao Wang : Front-end
-- Ray Chen : Front-end
-- Wentao Chen : Back-end
-- Jianan Gu : Back-end
+> Note: Due to the initial Git configuration, some contributors may appear under multiple commit identities.
+
 ## 1. Project Goals
 
 - Practice frontend + backend collaboration
@@ -22,7 +26,8 @@ This project is designed for a **4-week software engineering class project** and
 
 ## 2. Core Features
 
-### 1) Hotel Log
+### 1 Hotel Log
+
 - Add / edit / delete hotel stays
 - Fields:
   - Hotel name
@@ -32,7 +37,8 @@ This project is designed for a **4-week software engineering class project** and
   - Notes (optional)
 - List hotels in a table
 
-### 2) Flight Log
+### 2 Flight Log
+
 - Add / edit / delete flights
 - Fields:
   - Airline, flight number
@@ -42,12 +48,14 @@ This project is designed for a **4-week software engineering class project** and
   - Notes (optional)
 - List flights in a table
 
-### 3) Map View
+### 3 Map View
+
 - Show flight routes as lines on a map
 - Show hotel stays as markers
 - Clicking a marker or route shows basic details
 
-### 4) Time Summary
+### 4 Time Summary
+
 - Summary by **month / quarter / year**
 - Show:
   - Number of flights
@@ -61,23 +69,27 @@ This project is designed for a **4-week software engineering class project** and
 ## 3. Tech Stack (Simple)
 
 Frontend
+
 - React + JavaScript
 - Map: Leaflet or Mapbox
 - Charts: Chart.js or Recharts
 
 Backend
+
 - Gin + Golang
 - Database: PostgreSQL
 - ORM: GORM
 - Auth: simple email + password + JWT
 
 Dev
+
 - Docker + docker-compose
 - GitHub for collaboration
 
 ---
 
 ## 4. Repository Structure
+
 travellog/
 README.md
 docker-compose.yml
@@ -89,17 +101,18 @@ src/
 prisma/
 package.json
 
-
 ---
 
 ## 5. Basic Data Models
 
 User
+
 - id
 - email
 - password
 
 Hotel
+
 - id
 - user_id
 - hotel_name
@@ -111,6 +124,7 @@ Hotel
 - notes
 
 Flight
+
 - id
 - user_id
 - airline
@@ -127,26 +141,31 @@ Flight
 ## 6. API Endpoints (Minimal)
 
 Auth
+
 - POST `/auth/register`
 - POST `/auth/login`
 
 Hotels
+
 - GET `/hotels`
 - POST `/hotels`
 - PUT `/hotels/:id`
 - DELETE `/hotels/:id`
 
 Flights
+
 - GET `/flights`
 - POST `/flights`
 - PUT `/flights/:id`
 - DELETE `/flights/:id`
 
 Map
+
 - GET `/map`  
-Returns hotel locations and flight routes
+  Returns hotel locations and flight routes
 
 Summary
+
 - GET `/summary?type=month|quarter|year`
 
 ---
@@ -154,18 +173,22 @@ Summary
 ## 7. Team Work Split (4 People)
 
 Frontend Developer A
+
 - Login / register pages
 - Flight log UI
 
 Frontend Developer B
+
 - Hotel log UI (table + form)
 - Map page and summary page
 
 Backend Developer A
+
 - Auth (login / register)
 - Flight CRUD APIs
 
 Backend Developer B
+
 - Hotel CRUD APIs
 - Map and summary aggregation APIs
 
@@ -174,20 +197,24 @@ Backend Developer B
 ## 8. 4-Week Plan (Easy Pace)
 
 ### Week 1
+
 - Project setup
 - Database schema
 - Login / register
 - Hotel CRUD (backend + frontend)
 
 ### Week 2
+
 - Flight CRUD (backend + frontend)
 - Basic tables for hotels and flights
 
 ### Week 3
+
 - Map page (show flights + hotels)
 - Summary API and simple UI
 
 ### Week 4
+
 - Bug fixes
 - UI polish
 - Final demo preparation
@@ -215,4 +242,3 @@ Backend Developer B
 ## 11. License
 
 MIT
-
