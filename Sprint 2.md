@@ -72,8 +72,9 @@ As a developer, I want minimal E2E (Cypress) and unit tests to guard core flows.
 ## Successfully completed
 
 - Frontend:
-  - (Team to fill) Flight list/form pages wired to backend; JWT persisted for protected routes.
-  - (Team to fill) Cypress smoke test + unit tests (list files once merged).
+  - Flight list and form pages wired to backend; JWT persisted for protected routes.
+  - Cypress E2E: login + create hotel flow, and flight navigation/add form flow.
+  - Unit tests (Vitest/RTL): PrivateRoute, HotelList, HotelForm, FlightList, FlightForm.
 - Backend:
   - Flight model finalized; Flight CRUD handlers implemented and routed with JWT protection.
   - API documentation added (Auth/Hotel/Flight) in this file.
@@ -90,7 +91,7 @@ As a developer, I want minimal E2E (Cypress) and unit tests to guard core flows.
 
 ## Not completed (and why)
 
-- (Fill after sprint progress)
+- all issues in Sprint 2 have been finished
 
 ---
 
@@ -116,8 +117,19 @@ As a developer, I want minimal E2E (Cypress) and unit tests to guard core flows.
 
 # Frontend Tests (Sprint 2)
 
-- Cypress E2E (smoke):
-- Unit tests:
+- Cypress E2E
+  - `cypress/e2e/smoke.cy.js`: logs in (uses `TEST_EMAIL`/`TEST_PASSWORD` env), creates a hotel, verifies it appears in the list.
+  - `cypress/e2e/flight.cy.js`: logs in (demo creds in test), opens Flights page, opens Add Flight form, checks required fields render.
+- Unit tests (Vitest + Testing Library)
+  - `src/components/PrivateRoute.test.jsx`: protects routes without token.
+  - `src/pages/HotelList.test.jsx`: loads and renders hotels; delete flow calls API.
+  - `src/pages/HotelForm.test.jsx`: submits hotel form and navigates back to list.
+  - `src/pages/FlightList.test.jsx`: renders flights; delete flow calls API.
+  - `src/pages/FlightForm.test.jsx`: submits flight creation with RFC3339 times and uppercase IATA codes.
+- How to run:
+  - Unit: `cd frontend && npm test`
+  - Cypress (headless): `cd frontend && npm run cypress:run` (set `TEST_EMAIL`/`TEST_PASSWORD`)
+  - Cypress (headed): `cd frontend && npm run cypress:open`
 
 ---
 
@@ -180,5 +192,5 @@ As a developer, I want minimal E2E (Cypress) and unit tests to guard core flows.
 
 # Frontend / Backend Testing Summary
 
-- Frontend: (team to fill) Cypress smoke + unit tests list and paths.
+- Frontend: Cypress (`cypress/e2e/smoke.cy.js`, `cypress/e2e/flight.cy.js`); Unit tests (`src/components/PrivateRoute.test.jsx`, `src/pages/HotelList.test.jsx`, `src/pages/HotelForm.test.jsx`, `src/pages/FlightList.test.jsx`, `src/pages/FlightForm.test.jsx`).
 - Backend: `routes/router_test.go` (auth, hotels, flights, JWT, isolation, bad input).
