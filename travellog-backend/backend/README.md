@@ -1,5 +1,7 @@
 # TravelLog Backend
 
+Teammates: for running the **frontend + backend together**, tests, seed user, and port troubleshooting, see the repo root **[README.md](../../README.md)** (section **11. Local development and testing**).
+
 ## Prerequisites
 
 - Go 1.21 or higher
@@ -18,7 +20,31 @@ go mod tidy
 USE_SQLITE=true go run main.go
 ```
 
-The server will start on `http://localhost:8080`
+The server listens on `SERVER_PORT` (default **8080**): `http://localhost:8080`
+
+If you see `listen tcp :8080: bind: address already in use`, another process is using that port. Find and stop it, for example:
+
+```bash
+lsof -i :8080 -sTCP:LISTEN
+kill <PID>
+```
+
+Or run on another port (remember to point the frontend proxy at the same port; see repo root **README** section 11):
+
+```bash
+SERVER_PORT=8081 USE_SQLITE=true go run main.go
+```
+
+### Test user for Cypress / manual QA
+
+There is no separate “admin” role in the API; this command adds a **normal user** with fixed credentials for automated tests:
+
+```bash
+cd backend
+USE_SQLITE=true go run ./cmd/seedtestuser
+```
+
+Defaults: email `admin@test.local`, password `AdminTest123!`. Override with `SEED_EMAIL` and `SEED_PASSWORD` (password must be at least 8 characters). The command is idempotent: if the user already exists, it does nothing.
 
 ### Option 2: Using PostgreSQL with Docker
 
@@ -67,6 +93,16 @@ go run main.go
 | POST | /hotels | Create new hotel |
 | PUT | /hotels/:id | Update hotel |
 | DELETE | /hotels/:id | Delete hotel |
+
+### Flights (Protected)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /flights | Get all flights for user |
+| GET | /flights/:id | Get specific flight |
+| POST | /flights | Create new flight |
+| PUT | /flights/:id | Update flight |
+| DELETE | /flights/:id | Delete flight |
 
 ## Example Requests
 

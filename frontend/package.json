@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -14,7 +18,13 @@
     "react-router-dom": "^6.22.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
     "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.1.0"
+    "cypress": "^14.0.0",
+    "jsdom": "^25.0.1",
+    "vite": "^5.1.0",
+    "vitest": "^3.0.5"
   }
 }
