@@ -18,7 +18,6 @@
 // 	})
 
 // 	// 1. Auth Routes (User Handler)
-// 	// 队友负责的部分
 // 	auth := r.Group("/auth")
 // 	{
 // 		auth.POST("/register", handlers.Register(cfg))
@@ -30,8 +29,6 @@
 // 	protected.Use(middleware.JWTAuth(cfg))
 // 	{
 // 		protected.GET("/me", handlers.Me())
-
-// 		// --- Hotel Routes (你的部分) ---
 
 // 		hotelHandler := handlers.NewHotelHandler()
 
@@ -80,7 +77,6 @@ func SetupRouter(cfg *config.Config) *gin.Engine {
 	})
 
 	// 1. Auth Routes (User Handler)
-	// 队友负责的部分
 	auth := r.Group("/auth")
 	{
 		auth.POST("/register", handlers.Register(cfg))
