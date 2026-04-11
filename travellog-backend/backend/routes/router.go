@@ -89,6 +89,9 @@ func SetupRouter(cfg *config.Config) *gin.Engine {
 	{
 		protected.GET("/me", handlers.Me())
 
+		mapHandler := handlers.NewMapHandler()
+		summaryHandler := handlers.NewSummaryHandler()
+
 		// --- Hotel Routes ---
 		hotelHandler := handlers.NewHotelHandler()
 
@@ -112,6 +115,10 @@ func SetupRouter(cfg *config.Config) *gin.Engine {
 			flightGroup.PUT("/:id", flightHandler.UpdateFlight)    // PUT /flights/:id
 			flightGroup.DELETE("/:id", flightHandler.DeleteFlight) // DELETE /flights/:id
 		}
+
+		// --- Map & Summary Routes ---
+		protected.GET("/map", mapHandler.GetMap)
+		protected.GET("/summary", summaryHandler.GetSummary)
 	}
 
 	return r
