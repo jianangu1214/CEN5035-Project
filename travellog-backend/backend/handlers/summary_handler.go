@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 	"sort"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -97,7 +98,7 @@ func periodKey(t time.Time, summaryType string) string {
 		return t.Format("2006")
 	case "quarter":
 		q := (int(t.Month())-1)/3 + 1
-		return t.Format("2006") + "-Q" + string('0'+q)
+		return t.Format("2006") + "-Q" + strconv.Itoa(q)
 	default: // month
 		return t.Format("2006-01")
 	}
