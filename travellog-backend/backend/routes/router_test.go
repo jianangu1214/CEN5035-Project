@@ -342,3 +342,256 @@ func TestGetHotelsOnlyOwnData(t *testing.T) {
 		t.Fatalf("expected only user1 hotel, got body=%s", w.Body.String())
 	}
 }
+
+// =======================
+// Sprint 3: Map & Summary Tests
+// =======================
+
+func TestGetMap_Success(t *testing.T) {
+	r := setupTestRouter(t)
+	token := registerAndLogin(t, r, "map1@test.com", "12345678")
+
+	// create hotel
+	hotelBody := map[string]interface{}{
+		"hotel_name": "Test Hotel",
+		"city":       "NYC",
+		"country":    "USA",
+		"check_in":   "2026-03-01",
+		"check_out":  "2026-03-03",
+		"price":      200,
+	}
+	w := performRequest(r, http.MethodPost, "/hotels", hotelBody, token)
+	if w.Code != http.StatusCreated {
+		t.Fatalf("create hotel failed: %s", w.Body.String())
+	}
+
+	// create flight
+	flightBody := map[string]interface{}{
+		"airline":       "Delta",
+		"flight_number": "DL100",
+		"from_airport":  "JFK",
+		"to_airport":    "LAX",
+		"depart_time":   "2026-03-01T10:00:00Z",
+		"arrive_time":   "2026-03-01T14:00:00Z",
+		"price":         300,
+	}
+	w = performRequest(r, http.MethodPost, "/flights", flightBody, token)
+	if w.Code != http.StatusCreated {
+		t.Fatalf("create flight failed: %s", w.Body.String())
+	}
+
+	// call /map
+	w = performRequest(r, http.MethodGet, "/map", nil, token)
+	if w.Code != http.StatusOK {
+		t.Fatalf("map failed: %d %s", w.Code, w.Body.String())
+	}
+
+	var resp struct {
+		Hotels  []interface{} `json:"hotels"`
+		Flights []interface{} `json:"flights"`
+	}
+	if err := json.Unmarshal(w.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("parse map response failed: %v", err)
+	}
+
+	if len(resp.Hotels) != 1 || len(resp.Flights) != 1 {
+		t.Fatalf("unexpected map data: %s", w.Body.String())
+	}
+}
+
+func TestGetMap_Unauthorized(t *testing.T) {
+	r := setupTestRouter(t)
+
+	w := performRequest(r, http.MethodGet, "/map", nil, "")
+	if w.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401, got %d", w.Code)
+	}
+}
+
+func TestGetSummary_Month(t *testing.T) {
+	r := setupTestRouter(t)
+	token := registerAndLogin(t, r, "sum1@test.com", "12345678")
+
+	// create flight
+	flightBody := map[string]interface{}{
+		"airline":       "AA",
+		"flight_number": "AA1",
+		"from_airport":  "JFK",
+		"to_airport":    "LAX",
+		"depart_time":   "2026-03-01T10:00:00Z",
+		"arrive_time":   "2026-03-01T14:00:00Z",
+		"price":         100,
+	}
+	performRequest(r, http.MethodPost, "/flights", flightBody, token)
+
+	// create hotel
+	hotelBody := map[string]interface{}{
+		"hotel_name": "Hilton",
+		"city":       "LA",
+		"country":    "USA",
+		"check_in":   "2026-03-01",
+		"check_out":  "2026-03-03",
+		"price":      200,
+	}
+	performRequest(r, http.MethodPost, "/hotels", hotelBody, token)
+
+	w := performRequest(r, http.MethodGet, "/summary?type=month", nil, token)
+	if w.Code != http.StatusOK {
+		t.Fatalf("summary failed: %d %s", w.Code, w.Body.String())
+	}
+
+	var resp struct {
+		Type      string `json:"type"`
+		Summaries []struct {
+			Flights int     `json:"flights"`
+			Hotels  int     `json:"hotels"`
+			Nights  int     `json:"nights"`
+			Spend   float64 `json:"spend"`
+		} `json:"summaries"`
+	}
+
+	if err := json.Unmarshal(w.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("parse summary failed: %v", err)
+	}
+
+	if resp.Type != "month" {
+		t.Fatalf("wrong type")
+	}
+
+	if len(resp.Summaries) == 0 {
+		t.Fatalf("empty summary")
+	}
+}
+
+func TestGetSummary_Unauthorized(t *testing.T) {
+	r := setupTestRouter(t)
+
+	w := performRequest(r, http.MethodGet, "/summary", nil, "")
+	if w.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401, got %d", w.Code)
+	}
+}
+
+func TestGetMap_OnlyOwnData(t *testing.T) {
+	r := setupTestRouter(t)
+
+	token1 := registerAndLogin(t, r, "mapown1@test.com", "12345678")
+	token2 := registerAndLogin(t, r, "mapown2@test.com", "12345678")
+
+	hotel1 := map[string]interface{}{
+		"hotel_name": "User1 Hotel",
+		"city":       "New York",
+		"country":    "USA",
+		"check_in":   "2026-03-01",
+		"check_out":  "2026-03-03",
+		"price":      100,
+		"notes":      "u1",
+	}
+	hotel2 := map[string]interface{}{
+		"hotel_name": "User2 Hotel",
+		"city":       "Boston",
+		"country":    "USA",
+		"check_in":   "2026-03-05",
+		"check_out":  "2026-03-06",
+		"price":      120,
+		"notes":      "u2",
+	}
+
+	flight1 := map[string]interface{}{
+		"airline":       "AA",
+		"flight_number": "AA101",
+		"from_airport":  "JFK",
+		"to_airport":    "LAX",
+		"depart_time":   "2026-03-01T10:00:00Z",
+		"arrive_time":   "2026-03-01T14:00:00Z",
+		"price":         200,
+		"notes":         "u1-flight",
+	}
+	flight2 := map[string]interface{}{
+		"airline":       "UA",
+		"flight_number": "UA202",
+		"from_airport":  "SFO",
+		"to_airport":    "SEA",
+		"depart_time":   "2026-03-02T10:00:00Z",
+		"arrive_time":   "2026-03-02T12:00:00Z",
+		"price":         180,
+		"notes":         "u2-flight",
+	}
+
+	w := performRequest(r, http.MethodPost, "/hotels", hotel1, token1)
+	if w.Code != http.StatusCreated {
+		t.Fatalf("create user1 hotel failed: %s", w.Body.String())
+	}
+	w = performRequest(r, http.MethodPost, "/hotels", hotel2, token2)
+	if w.Code != http.StatusCreated {
+		t.Fatalf("create user2 hotel failed: %s", w.Body.String())
+	}
+	w = performRequest(r, http.MethodPost, "/flights", flight1, token1)
+	if w.Code != http.StatusCreated {
+		t.Fatalf("create user1 flight failed: %s", w.Body.String())
+	}
+	w = performRequest(r, http.MethodPost, "/flights", flight2, token2)
+	if w.Code != http.StatusCreated {
+		t.Fatalf("create user2 flight failed: %s", w.Body.String())
+	}
+
+	w = performRequest(r, http.MethodGet, "/map", nil, token1)
+	if w.Code != http.StatusOK {
+		t.Fatalf("get map failed: %d %s", w.Code, w.Body.String())
+	}
+
+	var resp struct {
+		Hotels []struct {
+			HotelName string `json:"hotel_name"`
+		} `json:"hotels"`
+		Flights []struct {
+			FlightNumber string `json:"flight_number"`
+		} `json:"flights"`
+	}
+	if err := json.Unmarshal(w.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("parse map response failed: %v", err)
+	}
+
+	if len(resp.Hotels) != 1 || resp.Hotels[0].HotelName != "User1 Hotel" {
+		t.Fatalf("expected only user1 hotel, got %s", w.Body.String())
+	}
+	if len(resp.Flights) != 1 || resp.Flights[0].FlightNumber != "AA101" {
+		t.Fatalf("expected only user1 flight, got %s", w.Body.String())
+	}
+}
+
+func TestGetSummary_InvalidTypeDefaultsToMonth(t *testing.T) {
+	r := setupTestRouter(t)
+	token := registerAndLogin(t, r, "suminvalid@test.com", "12345678")
+
+	flightBody := map[string]interface{}{
+		"airline":       "Delta",
+		"flight_number": "DL555",
+		"from_airport":  "JFK",
+		"to_airport":    "LAX",
+		"depart_time":   "2026-03-01T10:00:00Z",
+		"arrive_time":   "2026-03-01T14:00:00Z",
+		"price":         150,
+	}
+
+	w := performRequest(r, http.MethodPost, "/flights", flightBody, token)
+	if w.Code != http.StatusCreated {
+		t.Fatalf("create flight failed: %s", w.Body.String())
+	}
+
+	w = performRequest(r, http.MethodGet, "/summary?type=badvalue", nil, token)
+	if w.Code != http.StatusOK {
+		t.Fatalf("summary failed: %d %s", w.Code, w.Body.String())
+	}
+
+	var resp struct {
+		Type string `json:"type"`
+	}
+	if err := json.Unmarshal(w.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("parse summary response failed: %v", err)
+	}
+
+	if resp.Type != "month" {
+		t.Fatalf("expected default type month, got %s", resp.Type)
+	}
+}
