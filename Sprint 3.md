@@ -37,7 +37,6 @@ As a developer, I want to maintain test coverage for new functionality, so that 
 - [Frontend] Map markers for hotels (city coordinates) and polylines for flight routes (airport coordinates).
 - [Frontend] Map interaction: click markers/routes to show details modal/tooltips.
 - [Frontend] Cypress E2E covering map load + summary view (smoke).
--admin@test.local
 - [Frontend] Install leaflet and react-leaflet dependencies
 - [Frontend] Create airport IATA code with coordinates lookup table
 - [Frontend] Create geocoding utility for hotel city/country
