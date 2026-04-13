@@ -20,6 +20,7 @@ export default function NavBar() {
           <Link to="/hotels/new">Add hotel</Link>
           <Link to="/flights">Flights</Link>
           <Link to="/flights/new">Add flight</Link>
+          <Link to="/map">Map</Link>
         </>
       )}
       {token ? (

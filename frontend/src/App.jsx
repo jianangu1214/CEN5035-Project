@@ -5,6 +5,7 @@ import HotelList from './pages/HotelList'
 import HotelForm from './pages/HotelForm'
 import FlightList from './pages/FlightList'
 import FlightForm from './pages/FlightForm'
+import TravelMap from './pages/TravelMap'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import './App.css'
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="/flights" element={<FlightList />} />
             <Route path="/flights/new" element={<FlightForm />} />
             <Route path="/flights/:id/edit" element={<FlightForm />} />
+            <Route path="/map" element={<TravelMap />} />
           </Route>
           <Route path="*" element={<Navigate to="/hotels" replace />} />
         </Routes>
