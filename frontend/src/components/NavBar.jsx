@@ -21,6 +21,7 @@ export default function NavBar() {
           <Link to="/flights">Flights</Link>
           <Link to="/flights/new">Add flight</Link>
           <Link to="/map">Map</Link>
+          <Link to="/summary">Summary</Link>
         </>
       )}
       {token ? (
