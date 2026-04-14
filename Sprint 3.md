@@ -66,11 +66,19 @@ As a developer, I want to maintain test coverage for new functionality, so that 
 
 ## Successfully completed
 
-_Update this section after Sprint 3 implementation_
+- Frontend
+  - TravelMap page with hotel markers and flight polylines; map interactions (click to see details).
+  - Summary page with month/quarter/year toggle consuming /summary.
+  - Unit tests for map/summary components.
+
+- Backend
+  - Implemented /map (user-scoped hotels + flights with coordinates, JWT-protected).
+  - Implemented /summary (month/quarter/year aggregates: flights, hotels, nights, spend, sorted).
+  - Updated API documentation in this file.
+  - Backend tests added for Map/Summary handlers (auth + ownership).
 
 ## Not completed (and why)
 
-_Update this section if any issues remain incomplete_
 
 ---
 
