@@ -80,7 +80,7 @@ _Update this section if any issues remain incomplete_
 
 # Backend API Documentation
 
-Map/Summary are Sprint 3 additions; Auth/Hotels/Flights are retained from Sprint 2 for completeness.\_
+Map/Summary are Sprint 3 additions; Auth/Hotels/Flights are retained from Sprint 2 for completeness.
 
 ## Map (Sprint 3)
 
