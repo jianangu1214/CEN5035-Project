@@ -34,15 +34,11 @@ As a developer, I want to maintain test coverage for new functionality, so that 
 
 ### Ray Chen (GitHub: rkc8626, kzc-qubit)
 
-- [Frontend] Map markers for hotels (city coordinates) and polylines for flight routes (airport coordinates).
-- [Frontend] Map interaction: click markers/routes to show details modal/tooltips.
-- [Frontend] Cypress E2E covering map load + summary view (smoke).
-- [Frontend] Install leaflet and react-leaflet dependencies
-- [Frontend] Create airport IATA code with coordinates lookup table
-- [Frontend] Create geocoding utility for hotel city/country
-- [Frontend] Create TravelMap page component with markers and polylines
-- [Frontend] Add /map route to App.jsx and NavBar link
-- [Frontend] Add map-related CSS styles
+- [Frontend] Implement TravelMap page (Leaflet) with hotel markers (lat/lng) and flight polylines (IATA-based coords).
+- [Frontend] Map interactions: click markers/routes to show details (tooltip/modal).
+- [Frontend] Data support: IATA → coordinate lookup plus city/country geocoding fallback.
+- [Frontend] Routing/UX: add /map route in App, NavBar link, and map-specific styling.
+- [Frontend] Dependencies: add/configure leaflet and react-leaflet.
 
 ## Backend Issues
 
@@ -70,11 +66,19 @@ As a developer, I want to maintain test coverage for new functionality, so that 
 
 ## Successfully completed
 
-_Update this section after Sprint 3 implementation_
+- Frontend
+  - TravelMap page with hotel markers and flight polylines; map interactions (click to see details).
+  - Summary page with month/quarter/year toggle consuming /summary.
+  - Unit tests for map/summary components.
+
+- Backend
+  - Implemented /map (user-scoped hotels + flights with coordinates, JWT-protected).
+  - Implemented /summary (month/quarter/year aggregates: flights, hotels, nights, spend, sorted).
+  - Updated API documentation in this file.
+  - Backend tests added for Map/Summary handlers (auth + ownership).
 
 ## Not completed (and why)
 
-_Update this section if any issues remain incomplete_
 
 ---
 
