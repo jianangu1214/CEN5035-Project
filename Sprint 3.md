@@ -84,7 +84,7 @@ As a developer, I want to maintain test coverage for new functionality, so that 
 
 # Backend API Documentation
 
-Map/Summary are Sprint 3 additions; Auth/Hotels/Flights are retained from Sprint 2 for completeness.\_
+Map/Summary are Sprint 3 additions; Auth/Hotels/Flights are retained from Sprint 2 for completeness.
 
 ## Map (Sprint 3)
 
