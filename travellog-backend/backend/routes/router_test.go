@@ -343,9 +343,7 @@ func TestGetHotelsOnlyOwnData(t *testing.T) {
 	}
 }
 
-// =======================
 // Sprint 3: Map & Summary Tests
-// =======================
 
 func TestGetMap_Success(t *testing.T) {
 	r := setupTestRouter(t)
@@ -593,5 +591,53 @@ func TestGetSummary_InvalidTypeDefaultsToMonth(t *testing.T) {
 
 	if resp.Type != "month" {
 		t.Fatalf("expected default type month, got %s", resp.Type)
+	}
+}
+
+func TestHotelsRequireAuth(t *testing.T) {
+	r := setupTestRouter(t)
+
+	req, _ := http.NewRequest("GET", "/hotels", nil)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusUnauthorized {
+		t.Errorf("expected 401, got %d", w.Code)
+	}
+}
+
+func TestUnknownRoute(t *testing.T) {
+	r := setupTestRouter(t)
+
+	req, _ := http.NewRequest("GET", "/unknown_route_123", nil)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusNotFound {
+		t.Errorf("expected 404, got %d", w.Code)
+	}
+}
+
+func TestSummaryNoAuth(t *testing.T) {
+	r := setupTestRouter(t)
+
+	req, _ := http.NewRequest("GET", "/summary?type=month", nil)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusUnauthorized {
+		t.Errorf("expected 401, got %d", w.Code)
+	}
+}
+
+func TestCreateFlightEmptyBody(t *testing.T) {
+	r := setupTestRouter(t)
+
+	req, _ := http.NewRequest("POST", "/flights", nil)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusUnauthorized {
+		t.Errorf("expected 401, got %d", w.Code)
 	}
 }
