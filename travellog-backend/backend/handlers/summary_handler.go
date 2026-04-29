@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,7 @@ func (h *SummaryHandler) GetSummary(c *gin.Context) {
 		return
 	}
 
-	summaryType := c.DefaultQuery("type", "month")
+	summaryType := strings.ToLower(strings.TrimSpace(c.DefaultQuery("type", "month")))
 	if summaryType != "month" && summaryType != "quarter" && summaryType != "year" {
 		summaryType = "month"
 	}
