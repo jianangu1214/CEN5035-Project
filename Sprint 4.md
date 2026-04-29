@@ -65,11 +65,16 @@ As a team, we want to present the completed project clearly, so that we can demo
 
 ## Successfully completed
 
-_Update this section after Sprint 4 implementation_
+- **Frontend (Ao Wang):** Summary page refinement, UI polish, frontend unit tests.
+- **Frontend (Ray Chen):** TravelMap polish, frontend bug fixes, Cypress coverage.
+- **Backend (Wentao Chen):** Backend regression testing, new backend tests for fixes, endpoint consistency review.
+- **Backend (Jianan Gu):** Map/Summary refinement, final API documentation, README backend instructions.
+
+All team member finish their own work
 
 ## Not completed (and why)
 
-_Update this section if any issues remain incomplete_
+All finished
 
 ---
 
@@ -136,7 +141,7 @@ _Update this section if any issues remain incomplete_
 
 - `GET /summary?type=month|quarter|year` (default `month`, JWT required)
 - Response: `200 { "type": "<type>", "summaries": [ { period, flights, hotels, nights, spend }, ... ] }`
-- Notes: periods are sorted ascending; nights = `(check_out - check_in)` days with minimum `0`; spend = hotel price + flight price totals per period.
+- Notes: periods are sorted ascending; nights = `(check_out - check_in)` days with minimum `0`; spend = hotel price + flight price totals per period; the `type` query is normalized before validation, and unsupported values fall back to `month`.
 
 ## Auth
 
